@@ -601,6 +601,8 @@ class _QRPreview extends StatelessWidget {
           data.length > 60 ? '${data.substring(0, 60)}...' : data,
           style: TextStyle(fontSize: 11, color: context.txtMuted),
           textAlign: TextAlign.center,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
         ),
         const SizedBox(height: 16),
         Row(children: [

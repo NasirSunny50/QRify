@@ -67,8 +67,8 @@ Future<bool> _showExitDialog(BuildContext context) async {
           style: TextButton.styleFrom(
             backgroundColor: AppColors.error.withOpacity(0.1),
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
           child: const Text('Exit',
               style: TextStyle(
@@ -300,8 +300,8 @@ class _HomeDashboardState extends State<_HomeDashboard>
                           icon: Icons.qr_code_scanner_rounded,
                           color: AppColors.primary,
                           animDelay: 0,
-                          onTap: () => _navigate(
-                              const ScannerScreen(isQRMode: true)),
+                          onTap: () =>
+                              _navigate(const ScannerScreen(isQRMode: true)),
                         ),
                         FeatureCard(
                           title: 'QR Generator',
@@ -317,8 +317,8 @@ class _HomeDashboardState extends State<_HomeDashboard>
                           icon: Icons.document_scanner_rounded,
                           color: AppColors.success,
                           animDelay: 160,
-                          onTap: () => _navigate(
-                              const ScannerScreen(isQRMode: false)),
+                          onTap: () =>
+                              _navigate(const ScannerScreen(isQRMode: false)),
                         ),
                         FeatureCard(
                           title: 'Barcode Generator',
@@ -347,28 +347,32 @@ class _HomeDashboardState extends State<_HomeDashboard>
                     Row(
                       children: [
                         _QuickAction(
-                          icon: Icons.link_rounded, label: 'URL',
+                          icon: Icons.link_rounded,
+                          label: 'URL',
                           color: AppColors.primary,
                           onTap: () => _navigate(
                               const QRGeneratorScreen(initialType: 'URL')),
                         ),
                         const SizedBox(width: 10),
                         _QuickAction(
-                          icon: Icons.wifi_rounded, label: 'WiFi',
+                          icon: Icons.wifi_rounded,
+                          label: 'WiFi',
                           color: AppColors.success,
                           onTap: () => _navigate(
                               const QRGeneratorScreen(initialType: 'WiFi')),
                         ),
                         const SizedBox(width: 10),
                         _QuickAction(
-                          icon: Icons.person_rounded, label: 'Contact',
+                          icon: Icons.person_rounded,
+                          label: 'Contact',
                           color: AppColors.accent,
                           onTap: () => _navigate(
                               const QRGeneratorScreen(initialType: 'Contact')),
                         ),
                         const SizedBox(width: 10),
                         _QuickAction(
-                          icon: Icons.text_fields_rounded, label: 'Text',
+                          icon: Icons.text_fields_rounded,
+                          label: 'Text',
                           color: AppColors.warning,
                           onTap: () => _navigate(
                               const QRGeneratorScreen(initialType: 'Text')),
@@ -398,8 +402,8 @@ class _HomeDashboardState extends State<_HomeDashboard>
                           padding: const EdgeInsets.only(bottom: 8),
                           child: HistoryListItem(
                             item: _recentItems[i],
-                            onTap: () => _navigate(
-                                ResultScreen(item: _recentItems[i])),
+                            onTap: () =>
+                                _navigate(ResultScreen(item: _recentItems[i])),
                             onFavorite: () async {
                               await HistoryService.toggleFavorite(
                                   _recentItems[i].id);
@@ -433,8 +437,10 @@ class _QuickAction extends StatelessWidget {
   final VoidCallback onTap;
 
   const _QuickAction({
-    required this.icon, required this.label,
-    required this.color, required this.onTap,
+    required this.icon,
+    required this.label,
+    required this.color,
+    required this.onTap,
   });
 
   @override
@@ -455,9 +461,9 @@ class _QuickAction extends StatelessWidget {
               const SizedBox(height: 6),
               Text(label,
                   style: TextStyle(
-                      fontSize: 11,
-                      color: color,
-                      fontWeight: FontWeight.w600)),
+                      fontSize: 11, color: color, fontWeight: FontWeight.w600),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
             ],
           ),
         ),
@@ -489,12 +495,16 @@ class _BottomNav extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _NavItem(
-                icon: Icons.home_rounded, label: 'Home',
-                selected: currentIndex == 0, onTap: () => onTap(0),
+                icon: Icons.home_rounded,
+                label: 'Home',
+                selected: currentIndex == 0,
+                onTap: () => onTap(0),
               ),
               _NavItem(
-                icon: Icons.history_rounded, label: 'History',
-                selected: currentIndex == 1, onTap: () => onTap(1),
+                icon: Icons.history_rounded,
+                label: 'History',
+                selected: currentIndex == 1,
+                onTap: () => onTap(1),
               ),
             ],
           ),
@@ -509,8 +519,11 @@ class _NavItem extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
-  const _NavItem({required this.icon, required this.label,
-      required this.selected, required this.onTap});
+  const _NavItem(
+      {required this.icon,
+      required this.label,
+      required this.selected,
+      required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -530,8 +543,7 @@ class _NavItem extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon,
-                color:
-                    selected ? AppColors.primary : context.txtMuted,
+                color: selected ? AppColors.primary : context.txtMuted,
                 size: 22),
             const SizedBox(height: 3),
             Text(label,

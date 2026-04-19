@@ -533,6 +533,8 @@ class _BarcodePreview extends StatelessWidget {
                       fontSize: 11,
                       color: context.txtMuted,
                       fontFamily: 'monospace'),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

@@ -14,9 +14,12 @@ class FeatureCard extends StatelessWidget {
 
   const FeatureCard({
     super.key,
-    required this.title, required this.subtitle,
-    required this.icon, required this.color,
-    required this.onTap, this.animDelay = 0,
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.color,
+    required this.onTap,
+    this.animDelay = 0,
   });
 
   @override
@@ -42,23 +45,31 @@ class FeatureCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Container(
-                    width: 46, height: 46,
+                    width: 46,
+                    height: 46,
                     decoration: BoxDecoration(
                       color: color.withOpacity(0.12),
                       borderRadius: BorderRadius.circular(13),
-                      border: Border.all(color: color.withOpacity(0.2), width: 0.5),
+                      border:
+                          Border.all(color: color.withOpacity(0.2), width: 0.5),
                     ),
                     child: Icon(icon, color: color, size: 22),
                   ),
                   const SizedBox(height: 14),
                   Text(title,
-                    style: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w600,
-                      color: context.txtPrimary,
-                    )),
+                      style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w600,
+                        color: context.txtPrimary,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis),
                   const SizedBox(height: 4),
                   Text(subtitle,
-                    style: TextStyle(fontSize: 12, color: context.txtMuted, height: 1.4)),
+                      style: TextStyle(
+                          fontSize: 12, color: context.txtMuted, height: 1.4),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis),
                 ],
               ),
             ),
@@ -68,7 +79,8 @@ class FeatureCard extends StatelessWidget {
     )
         .animate(delay: Duration(milliseconds: animDelay))
         .fadeIn(duration: 400.ms)
-        .slideY(begin: 0.2, end: 0, duration: 400.ms, curve: Curves.easeOutCubic);
+        .slideY(
+            begin: 0.2, end: 0, duration: 400.ms, curve: Curves.easeOutCubic);
   }
 }
 
@@ -81,8 +93,12 @@ class GlassContainer extends StatelessWidget {
   final double? borderWidth;
 
   const GlassContainer({
-    super.key, required this.child,
-    this.padding, this.borderRadius, this.borderColor, this.borderWidth,
+    super.key,
+    required this.child,
+    this.padding,
+    this.borderRadius,
+    this.borderColor,
+    this.borderWidth,
   });
 
   @override
@@ -113,16 +129,22 @@ class ActionButton extends StatelessWidget {
   final double? width;
 
   const ActionButton({
-    super.key, required this.label, required this.onTap,
-    this.icon, this.color, this.outlined = false,
-    this.isLoading = false, this.width,
+    super.key,
+    required this.label,
+    required this.onTap,
+    this.icon,
+    this.color,
+    this.outlined = false,
+    this.isLoading = false,
+    this.width,
   });
 
   @override
   Widget build(BuildContext context) {
     final buttonColor = color ?? AppColors.primary;
     return SizedBox(
-      width: width, height: 48,
+      width: width,
+      height: 48,
       child: Material(
         color: outlined ? Colors.transparent : buttonColor,
         borderRadius: BorderRadius.circular(13),
@@ -139,7 +161,8 @@ class ActionButton extends StatelessWidget {
             child: Center(
               child: isLoading
                   ? SizedBox(
-                      width: 18, height: 18,
+                      width: 18,
+                      height: 18,
                       child: CircularProgressIndicator(
                         strokeWidth: 2,
                         valueColor: AlwaysStoppedAnimation(
@@ -150,17 +173,19 @@ class ActionButton extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         if (icon != null) ...[
-                          Icon(icon, size: 17,
-                              color: outlined
-                                  ? context.txtPrimary
-                                  : Colors.white),
+                          Icon(icon,
+                              size: 17,
+                              color:
+                                  outlined ? context.txtPrimary : Colors.white),
                           const SizedBox(width: 7),
                         ],
                         Text(label,
-                          style: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w600,
-                            color: outlined ? context.txtPrimary : Colors.white,
-                          )),
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color:
+                                  outlined ? context.txtPrimary : Colors.white,
+                            )),
                       ],
                     ),
             ),
@@ -187,10 +212,12 @@ class TypeBadge extends StatelessWidget {
         border: Border.all(color: color.withOpacity(0.3), width: 0.5),
       ),
       child: Text(label,
-        style: TextStyle(
-          fontSize: 11, fontWeight: FontWeight.w600,
-          color: color, letterSpacing: 0.3,
-        )),
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: FontWeight.w600,
+            color: color,
+            letterSpacing: 0.3,
+          )),
     );
   }
 }
@@ -203,40 +230,53 @@ class HistoryListItem extends StatelessWidget {
   final VoidCallback onDelete;
 
   const HistoryListItem({
-    super.key, required this.item, required this.onTap,
-    required this.onFavorite, required this.onDelete,
+    super.key,
+    required this.item,
+    required this.onTap,
+    required this.onFavorite,
+    required this.onDelete,
   });
 
   Color get _typeColor {
     switch (item.scanType) {
       case ScanType.qrCode:
         return item.actionType == ActionType.scanned
-            ? AppColors.primary : AppColors.accent;
+            ? AppColors.primary
+            : AppColors.accent;
       case ScanType.barcode:
         return item.actionType == ActionType.scanned
-            ? AppColors.success : AppColors.warning;
+            ? AppColors.success
+            : AppColors.warning;
     }
   }
 
   IconData get _categoryIcon {
     switch (item.category) {
-      case ContentCategory.url:     return Icons.link_rounded;
-      case ContentCategory.email:   return Icons.email_rounded;
-      case ContentCategory.phone:   return Icons.phone_rounded;
-      case ContentCategory.wifi:    return Icons.wifi_rounded;
-      case ContentCategory.contact: return Icons.person_rounded;
-      case ContentCategory.sms:     return Icons.sms_rounded;
-      case ContentCategory.barcode: return Icons.qr_code_rounded;
-      default:                      return Icons.text_snippet_rounded;
+      case ContentCategory.url:
+        return Icons.link_rounded;
+      case ContentCategory.email:
+        return Icons.email_rounded;
+      case ContentCategory.phone:
+        return Icons.phone_rounded;
+      case ContentCategory.wifi:
+        return Icons.wifi_rounded;
+      case ContentCategory.contact:
+        return Icons.person_rounded;
+      case ContentCategory.sms:
+        return Icons.sms_rounded;
+      case ContentCategory.barcode:
+        return Icons.qr_code_rounded;
+      default:
+        return Icons.text_snippet_rounded;
     }
   }
 
   String get _timeAgo {
     final diff = DateTime.now().difference(item.createdAt);
-    if (diff.inMinutes < 1)  return 'Just now';
+    if (diff.inMinutes < 1) return 'Just now';
     if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24)   return '${diff.inHours}h ago';
-    if (diff.inDays < 7)     return '${diff.inDays}d ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    if (diff.inDays < 7) return '${diff.inDays}d ago';
     return '${item.createdAt.day}/${item.createdAt.month}/${item.createdAt.year}';
   }
 
@@ -269,11 +309,13 @@ class HistoryListItem extends StatelessWidget {
             children: [
               // Type icon
               Container(
-                width: 40, height: 40,
+                width: 40,
+                height: 40,
                 decoration: BoxDecoration(
                   color: _typeColor.withOpacity(0.1),
                   borderRadius: BorderRadius.circular(11),
-                  border: Border.all(color: _typeColor.withOpacity(0.2), width: 0.5),
+                  border: Border.all(
+                      color: _typeColor.withOpacity(0.2), width: 0.5),
                 ),
                 child: Icon(_categoryIcon, color: _typeColor, size: 18),
               ),
@@ -284,24 +326,31 @@ class HistoryListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(item.displayTitle,
-                      style: TextStyle(
-                        fontSize: 13, fontWeight: FontWeight.w500,
-                        color: context.txtPrimary,
-                      ),
-                      maxLines: 1, overflow: TextOverflow.ellipsis),
+                        style: TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          color: context.txtPrimary,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis),
                     const SizedBox(height: 3),
                     Row(children: [
                       TypeBadge(
-                        label: item.scanType == ScanType.qrCode ? 'QR' : 'Barcode',
+                        label:
+                            item.scanType == ScanType.qrCode ? 'QR' : 'Barcode',
                         color: _typeColor,
                       ),
                       const SizedBox(width: 6),
                       Text(
-                        item.actionType == ActionType.scanned ? 'Scanned' : 'Generated',
-                        style: TextStyle(fontSize: 11, color: context.txtMuted)),
+                          item.actionType == ActionType.scanned
+                              ? 'Scanned'
+                              : 'Generated',
+                          style:
+                              TextStyle(fontSize: 11, color: context.txtMuted)),
                       const SizedBox(width: 6),
                       Text('• $_timeAgo',
-                        style: TextStyle(fontSize: 11, color: context.txtMuted)),
+                          style:
+                              TextStyle(fontSize: 11, color: context.txtMuted)),
                     ]),
                   ],
                 ),
@@ -310,7 +359,8 @@ class HistoryListItem extends StatelessWidget {
               GestureDetector(
                 onTap: onFavorite,
                 child: Container(
-                  width: 40, height: 40,
+                  width: 40,
+                  height: 40,
                   decoration: BoxDecoration(
                     color: item.isFavorite
                         ? AppColors.warning.withOpacity(0.1)
@@ -327,9 +377,8 @@ class HistoryListItem extends StatelessWidget {
                     item.isFavorite
                         ? Icons.bookmark_rounded
                         : Icons.bookmark_outline_rounded,
-                    color: item.isFavorite
-                        ? AppColors.warning
-                        : context.txtMuted,
+                    color:
+                        item.isFavorite ? AppColors.warning : context.txtMuted,
                     size: 20,
                   ),
                 ),
@@ -349,7 +398,10 @@ class SectionHeader extends StatelessWidget {
   final VoidCallback? onAction;
 
   const SectionHeader({
-    super.key, required this.title, this.actionLabel, this.onAction,
+    super.key,
+    required this.title,
+    this.actionLabel,
+    this.onAction,
   });
 
   @override
@@ -360,18 +412,21 @@ class SectionHeader extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title,
-            style: TextStyle(
-              fontSize: 13, fontWeight: FontWeight.w600,
-              color: context.txtMuted, letterSpacing: 1.2,
-            )),
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: context.txtMuted,
+                letterSpacing: 1.2,
+              )),
           if (actionLabel != null)
             GestureDetector(
               onTap: onAction,
               child: Text(actionLabel!,
-                style: const TextStyle(
-                  fontSize: 13, color: AppColors.primary,
-                  fontWeight: FontWeight.w500,
-                )),
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: AppColors.primary,
+                    fontWeight: FontWeight.w500,
+                  )),
             ),
         ],
       ),
@@ -383,7 +438,8 @@ class SectionHeader extends StatelessWidget {
 class ScanModeToggle extends StatelessWidget {
   final bool isQR;
   final ValueChanged<bool> onChanged;
-  const ScanModeToggle({super.key, required this.isQR, required this.onChanged});
+  const ScanModeToggle(
+      {super.key, required this.isQR, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -398,7 +454,8 @@ class ScanModeToggle extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           _Tab(label: 'QR Code', selected: isQR, onTap: () => onChanged(true)),
-          _Tab(label: 'Barcode', selected: !isQR, onTap: () => onChanged(false)),
+          _Tab(
+              label: 'Barcode', selected: !isQR, onTap: () => onChanged(false)),
         ],
       ),
     );
@@ -409,7 +466,8 @@ class _Tab extends StatelessWidget {
   final String label;
   final bool selected;
   final VoidCallback onTap;
-  const _Tab({required this.label, required this.selected, required this.onTap});
+  const _Tab(
+      {required this.label, required this.selected, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -423,10 +481,11 @@ class _Tab extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: Text(label,
-          style: TextStyle(
-            fontSize: 13, fontWeight: FontWeight.w600,
-            color: selected ? Colors.white : context.txtMuted,
-          )),
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w600,
+              color: selected ? Colors.white : context.txtMuted,
+            )),
       ),
     );
   }
@@ -437,18 +496,21 @@ class ShimmerBox extends StatelessWidget {
   final double width;
   final double height;
   final double radius;
-  const ShimmerBox({super.key, required this.width, required this.height, this.radius = 8});
+  const ShimmerBox(
+      {super.key, required this.width, required this.height, this.radius = 8});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width, height: height,
+      width: width,
+      height: height,
       decoration: BoxDecoration(
         color: context.bgElevated,
         borderRadius: BorderRadius.circular(radius),
       ),
-    ).animate(onPlay: (c) => c.repeat())
-     .shimmer(duration: 1500.ms, color: context.bgHighlight);
+    )
+        .animate(onPlay: (c) => c.repeat())
+        .shimmer(duration: 1500.ms, color: context.bgHighlight);
   }
 }
 
@@ -461,8 +523,12 @@ class EmptyState extends StatelessWidget {
   final VoidCallback? onAction;
 
   const EmptyState({
-    super.key, required this.icon, required this.title,
-    required this.subtitle, this.actionLabel, this.onAction,
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+    this.actionLabel,
+    this.onAction,
   });
 
   @override
@@ -474,7 +540,8 @@ class EmptyState extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              width: 72, height: 72,
+              width: 72,
+              height: 72,
               decoration: BoxDecoration(
                 color: AppColors.primary.withOpacity(0.08),
                 shape: BoxShape.circle,
@@ -485,15 +552,17 @@ class EmptyState extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             Text(title,
-              style: TextStyle(
-                fontSize: 17, fontWeight: FontWeight.w600,
-                color: context.txtPrimary,
-              ),
-              textAlign: TextAlign.center),
+                style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                  color: context.txtPrimary,
+                ),
+                textAlign: TextAlign.center),
             const SizedBox(height: 8),
             Text(subtitle,
-              style: TextStyle(fontSize: 13, color: context.txtMuted, height: 1.5),
-              textAlign: TextAlign.center),
+                style: TextStyle(
+                    fontSize: 13, color: context.txtMuted, height: 1.5),
+                textAlign: TextAlign.center),
             if (actionLabel != null) ...[
               const SizedBox(height: 24),
               ActionButton(label: actionLabel!, onTap: onAction!),

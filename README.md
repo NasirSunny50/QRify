@@ -95,8 +95,8 @@ Before you begin, ensure you have the following installed:
 #### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/qrscanx.git
-cd qrscanx
+git clone https://github.com/yourusername/qrify.git
+cd qrify
 ```
 
 #### 2. Install Flutter Dependencies
@@ -388,8 +388,8 @@ This project is licensed under the MIT License - see [LICENSE](LICENSE) file for
 
 ## 📞 Support & Contact
 
-- **Report Issues**: [GitHub Issues](https://github.com/yourusername/qrscanx/issues)
-- **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/qrscanx/discussions)
+- **Report Issues**: [GitHub Issues](https://github.com/yourusername/qrify/issues)
+- **Feature Requests**: [GitHub Discussions](https://github.com/yourusername/qrify/discussions)
 - **Email**: your.email@example.com
 
 ---

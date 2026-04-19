@@ -11,8 +11,10 @@ import '../widgets/common_widgets.dart';
 Future<void> _launchUrlExternal(BuildContext context, String url) async {
   try {
     String finalUrl = url;
-    if (!url.startsWith('http://') && !url.startsWith('https://') &&
-        !url.startsWith('mailto:') && !url.startsWith('tel:') &&
+    if (!url.startsWith('http://') &&
+        !url.startsWith('https://') &&
+        !url.startsWith('mailto:') &&
+        !url.startsWith('tel:') &&
         !url.startsWith('sms:')) {
       finalUrl = 'https://$url';
     }
@@ -29,9 +31,13 @@ Future<void> _launchUrlExternal(BuildContext context, String url) async {
 
 // ─── vCard → Android Contacts app ────────────────────────────────────────────
 Future<void> _addContact(BuildContext context, String vcard) async {
-  final name = RegExp(r'FN:([^\n\r]+)').firstMatch(vcard)?.group(1)?.trim() ?? '';
-  final phone = RegExp(r'TEL[^:]*:([^\n\r]+)').firstMatch(vcard)?.group(1)?.trim() ?? '';
-  final email = RegExp(r'EMAIL[^:]*:([^\n\r]+)').firstMatch(vcard)?.group(1)?.trim() ?? '';
+  final name =
+      RegExp(r'FN:([^\n\r]+)').firstMatch(vcard)?.group(1)?.trim() ?? '';
+  final phone =
+      RegExp(r'TEL[^:]*:([^\n\r]+)').firstMatch(vcard)?.group(1)?.trim() ?? '';
+  final email =
+      RegExp(r'EMAIL[^:]*:([^\n\r]+)').firstMatch(vcard)?.group(1)?.trim() ??
+          '';
 
   bool launched = false;
 
@@ -66,7 +72,8 @@ Future<void> _addContact(BuildContext context, String vcard) async {
   }
 }
 
-void _showContactDialog(BuildContext context, String name, String phone, String email) {
+void _showContactDialog(
+    BuildContext context, String name, String phone, String email) {
   showDialog(
     context: context,
     builder: (ctx) => AlertDialog(
@@ -94,7 +101,8 @@ void _showContactDialog(BuildContext context, String name, String phone, String 
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(ctx),
-          child: const Text('Close', style: TextStyle(color: AppColors.primary)),
+          child:
+              const Text('Close', style: TextStyle(color: AppColors.primary)),
         ),
       ],
     ),
@@ -143,7 +151,8 @@ class _ResultScreenState extends State<ResultScreen> {
 
     // Favorites এ toggle করো
     final allItems = await HistoryService.getAll();
-    final existing = allItems.where((i) => i.content == widget.item.content).toList();
+    final existing =
+        allItems.where((i) => i.content == widget.item.content).toList();
 
     if (existing.isNotEmpty) {
       await HistoryService.toggleFavorite(existing.first.id);
@@ -153,7 +162,8 @@ class _ResultScreenState extends State<ResultScreen> {
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(_isFavorite ? 'Removed from favorites' : 'Saved to favorites!'),
+          content: Text(
+              _isFavorite ? 'Removed from favorites' : 'Saved to favorites!'),
         ),
       );
     }
@@ -262,8 +272,7 @@ class _ResultScreenState extends State<ResultScreen> {
                   Row(
                     children: [
                       _CategoryIcon(
-                          category: widget.item.category,
-                          color: _primaryColor),
+                          category: widget.item.category, color: _primaryColor),
                       const SizedBox(width: 10),
                       Text(
                         _categoryLabel(widget.item.category),
@@ -304,8 +313,7 @@ class _ResultScreenState extends State<ResultScreen> {
                       Clipboard.setData(
                           ClipboardData(text: widget.item.content));
                       ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text('Copied to clipboard!')),
+                        const SnackBar(content: Text('Copied to clipboard!')),
                       );
                     },
                   ),
@@ -339,8 +347,7 @@ class _ResultScreenState extends State<ResultScreen> {
             child: ActionButton(
               label: 'Open in Browser',
               icon: Icons.open_in_new_rounded,
-              onTap: () =>
-                  _launchUrlExternal(context, widget.item.content),
+              onTap: () => _launchUrlExternal(context, widget.item.content),
             ),
           ).animate(delay: 400.ms).fadeIn().slideY(begin: 0.1),
         );
@@ -353,8 +360,7 @@ class _ResultScreenState extends State<ResultScreen> {
             child: ActionButton(
               label: 'Send Email',
               icon: Icons.email_rounded,
-              onTap: () =>
-                  _launchUrlExternal(context, widget.item.content),
+              onTap: () => _launchUrlExternal(context, widget.item.content),
               color: AppColors.accent,
             ),
           ).animate(delay: 400.ms).fadeIn().slideY(begin: 0.1),
@@ -368,8 +374,7 @@ class _ResultScreenState extends State<ResultScreen> {
             child: ActionButton(
               label: 'Call Now',
               icon: Icons.phone_rounded,
-              onTap: () =>
-                  _launchUrlExternal(context, widget.item.content),
+              onTap: () => _launchUrlExternal(context, widget.item.content),
               color: AppColors.success,
             ),
           ).animate(delay: 400.ms).fadeIn().slideY(begin: 0.1),
@@ -390,14 +395,12 @@ class _ResultScreenState extends State<ResultScreen> {
         break;
 
       case ContentCategory.wifi:
-        final ssid = RegExp(r'S:([^;]+)')
-                .firstMatch(widget.item.content)
-                ?.group(1) ??
-            '';
-        final pass = RegExp(r'P:([^;]+)')
-                .firstMatch(widget.item.content)
-                ?.group(1) ??
-            '';
+        final ssid =
+            RegExp(r'S:([^;]+)').firstMatch(widget.item.content)?.group(1) ??
+                '';
+        final pass =
+            RegExp(r'P:([^;]+)').firstMatch(widget.item.content)?.group(1) ??
+                '';
         actions.add(
           GlassContainer(
             borderColor: AppColors.success.withOpacity(0.2),
@@ -405,8 +408,7 @@ class _ResultScreenState extends State<ResultScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Row(children: [
-                  Icon(Icons.wifi_rounded,
-                      color: AppColors.success, size: 16),
+                  Icon(Icons.wifi_rounded, color: AppColors.success, size: 16),
                   SizedBox(width: 8),
                   Text('WiFi Details',
                       style: TextStyle(
@@ -417,8 +419,7 @@ class _ResultScreenState extends State<ResultScreen> {
                 const SizedBox(height: 12),
                 _InfoRow(label: 'Network', value: ssid),
                 const SizedBox(height: 8),
-                _InfoRow(
-                    label: 'Password', value: pass, isPassword: true),
+                _InfoRow(label: 'Password', value: pass, isPassword: true),
               ],
             ),
           ).animate(delay: 400.ms).fadeIn().slideY(begin: 0.1),
@@ -448,8 +449,7 @@ class _ResultScreenState extends State<ResultScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Row(children: [
-                  Icon(Icons.person_rounded,
-                      color: AppColors.accent, size: 16),
+                  Icon(Icons.person_rounded, color: AppColors.accent, size: 16),
                   SizedBox(width: 8),
                   Text('Contact',
                       style: TextStyle(
@@ -458,8 +458,7 @@ class _ResultScreenState extends State<ResultScreen> {
                           color: AppColors.accent)),
                 ]),
                 const SizedBox(height: 12),
-                if (name.isNotEmpty)
-                  _InfoRow(label: 'Name', value: name),
+                if (name.isNotEmpty) _InfoRow(label: 'Name', value: name),
                 if (phone.isNotEmpty) ...[
                   const SizedBox(height: 8),
                   _InfoRow(label: 'Phone', value: phone),
@@ -477,8 +476,7 @@ class _ResultScreenState extends State<ResultScreen> {
             child: ActionButton(
               label: 'Add to Contacts',
               icon: Icons.person_add_rounded,
-              onTap: () =>
-                  _addContact(context, widget.item.content),
+              onTap: () => _addContact(context, widget.item.content),
               color: AppColors.accent,
             ),
           ).animate(delay: 450.ms).fadeIn(),
@@ -495,14 +493,22 @@ class _ResultScreenState extends State<ResultScreen> {
 
   String _categoryLabel(ContentCategory cat) {
     switch (cat) {
-      case ContentCategory.url: return 'Website URL';
-      case ContentCategory.email: return 'Email Address';
-      case ContentCategory.phone: return 'Phone Number';
-      case ContentCategory.wifi: return 'WiFi Network';
-      case ContentCategory.contact: return 'Contact Card';
-      case ContentCategory.sms: return 'SMS Message';
-      case ContentCategory.barcode: return 'Barcode';
-      default: return 'Plain Text';
+      case ContentCategory.url:
+        return 'Website URL';
+      case ContentCategory.email:
+        return 'Email Address';
+      case ContentCategory.phone:
+        return 'Phone Number';
+      case ContentCategory.wifi:
+        return 'WiFi Network';
+      case ContentCategory.contact:
+        return 'Contact Card';
+      case ContentCategory.sms:
+        return 'SMS Message';
+      case ContentCategory.barcode:
+        return 'Barcode';
+      default:
+        return 'Plain Text';
     }
   }
 }
@@ -515,21 +521,30 @@ class _CategoryIcon extends StatelessWidget {
 
   IconData get _icon {
     switch (category) {
-      case ContentCategory.url: return Icons.link_rounded;
-      case ContentCategory.email: return Icons.email_rounded;
-      case ContentCategory.phone: return Icons.phone_rounded;
-      case ContentCategory.wifi: return Icons.wifi_rounded;
-      case ContentCategory.contact: return Icons.person_rounded;
-      case ContentCategory.sms: return Icons.sms_rounded;
-      case ContentCategory.barcode: return Icons.qr_code_rounded;
-      default: return Icons.text_snippet_rounded;
+      case ContentCategory.url:
+        return Icons.link_rounded;
+      case ContentCategory.email:
+        return Icons.email_rounded;
+      case ContentCategory.phone:
+        return Icons.phone_rounded;
+      case ContentCategory.wifi:
+        return Icons.wifi_rounded;
+      case ContentCategory.contact:
+        return Icons.person_rounded;
+      case ContentCategory.sms:
+        return Icons.sms_rounded;
+      case ContentCategory.barcode:
+        return Icons.qr_code_rounded;
+      default:
+        return Icons.text_snippet_rounded;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 30, height: 30,
+      width: 30,
+      height: 30,
       decoration: BoxDecoration(
         color: color.withOpacity(0.12),
         borderRadius: BorderRadius.circular(8),
@@ -569,8 +584,9 @@ class _QuickAction extends StatelessWidget {
             Icon(icon, color: iconColor ?? context.txtSecondary, size: 20),
             const SizedBox(height: 5),
             Text(label,
-                style: TextStyle(
-                    fontSize: 11, color: context.txtSecondary)),
+                style: TextStyle(fontSize: 11, color: context.txtSecondary),
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis),
           ],
         ),
       ),
@@ -583,7 +599,8 @@ class _InfoRow extends StatefulWidget {
   final String label;
   final String value;
   final bool isPassword;
-  const _InfoRow({required this.label, required this.value, this.isPassword = false});
+  const _InfoRow(
+      {required this.label, required this.value, this.isPassword = false});
 
   @override
   State<_InfoRow> createState() => _InfoRowState();
@@ -616,8 +633,11 @@ class _InfoRowState extends State<_InfoRow> {
           GestureDetector(
             onTap: () => setState(() => _obscure = !_obscure),
             child: Icon(
-              _obscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
-              color: context.txtMuted, size: 16,
+              _obscure
+                  ? Icons.visibility_rounded
+                  : Icons.visibility_off_rounded,
+              color: context.txtMuted,
+              size: 16,
             ),
           ),
         const SizedBox(width: 6),
